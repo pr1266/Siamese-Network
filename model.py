@@ -1,14 +1,6 @@
 import torch
 import torch.nn as nn
-
-class PrintLayer(nn.Module):
-
-    def __init__(self):
-        super(PrintLayer, self).__init__()
-
-    def forward(self, x):
-        print('out_size : ', x.size())
-        return x
+from .utils import PrintLayer
 
 class SiameseModel(nn.Module):
 

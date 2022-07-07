@@ -10,10 +10,10 @@ class PrintLayer(nn.Module):
         print('out_size : ', x.size())
         return x
 
-class MyModel(nn.Module):
+class SiameseModel(nn.Module):
 
     def __init__(self):
-        super(MyModel, self).__init__()
+        super(SiameseModel, self).__init__()
         self.feature_extractor = nn.Sequential(
             nn.Conv2d(1, 96, kernel_size=11, stride=4),
             nn.ReLU(inplace=True),
@@ -59,7 +59,7 @@ class MyModel(nn.Module):
 
 def Test():
 
-    model = MyModel()
+    model = SiameseModel()
     print(model)
 
 if __name__ == '__main__':

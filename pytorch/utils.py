@@ -21,7 +21,3 @@ def imshow(img, text=None):
         
     plt.imshow(np.transpose(npimg, (1, 2, 0)))
     plt.show()    
-
-def show_plot(iteration,loss):
-    plt.plot(iteration,loss)
-    plt.show()

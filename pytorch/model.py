@@ -36,17 +36,16 @@ class SiameseModel(nn.Module):
 
         )
 
-        def forward_(self, x):
-            out = self.feature_extrctor(x)
-            out = out.view(out.size()[0], -1)
-            out = self.classifier(out)
-            return out
+    def forward_(self, x):
+        out = self.feature_extractor(x)
+        out = out.view(out.size()[0], -1)
+        out = self.classifier(out)
+        return out
 
-        def forward(self, x1, x2):
-
-            out1 = self.forward_(x1)
-            out2 = self.forward_(x2)
-            return out1, out2
+    def forward(self, x1, x2):
+        out1 = self.forward_(x1)
+        out2 = self.forward_(x2)
+        return out1, out2
 
 
 def Test():

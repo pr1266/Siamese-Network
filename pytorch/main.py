@@ -10,8 +10,8 @@ from torch.utils.data import Dataset, DataLoader
 import torch.nn.functional as F
 import torchvision
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-train_data_path = './data/faces/training/'
-test_data_path = './data/faces/testing/'
+train_data_path = "./data/faces/training/"
+test_data_path = "./data/faces/testing/"
 epochs = 100
 
 def main():
@@ -43,7 +43,8 @@ def main():
                 counter.append(iteration_number)
                 loss_history.append(loss_contrastive.item())
 
-    show_plot(counter, loss_history)
+    plt.plot(counter, loss_history)
+    plt.show()
 
     folder_dataset_test = datasets.ImageFolder(root=test_data_path)
     siamese_dataset = SiameseDataset(path=folder_dataset_test, transform=transformation)
@@ -57,5 +58,6 @@ def main():
         output1, output2 = net(x0.cuda(), x1.cuda())
         euclidean_distance = F.pairwise_distance(output1, output2)
         imshow(torchvision.utils.make_grid(concatenated), f'Dissimilarity: {euclidean_distance.item():.2f}')
+
 if __name__ == '__main__':
     main()

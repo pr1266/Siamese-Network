@@ -15,23 +15,26 @@ test_data_path = "./data/faces/testing/"
 epochs = 100
 
 def main():
-
+    if torch.cuda.is_available():
+        print("using GPU Like a BOSS")
+    else:
+        print("using CPU")
     folder_dataset = datasets.ImageFolder(root=train_data_path)
     transformation = transforms.Compose([transforms.Resize((100,100)), transforms.ToTensor()])
     siamese_dataset = SiameseDataset(path=folder_dataset,transform=transformation)
-    train_dataloader = DataLoader(siamese_dataset, shuffle=True, num_workers=8, batch_size=64)
-    net = SiameseModel().to(device=device)
+    train_dataloader = DataLoader(siamese_dataset, shuffle=True, num_workers=8, batch_size=16)
+    net = SiameseModel().to(device)
     criterion = ContrastiveLoss()
     optimizer = optim.Adam(net.parameters(), lr = 0.0005 )
     
     #! Train Phase:
     counter = []
     loss_history = [] 
-    iteration_number= 0
+    iteration_number = 0
 
     for epoch in range(epochs):
         for i, (img0, img1, label) in enumerate(train_dataloader, 0):
-            img0, img1, label = img0.to(device=device), img1.to(device=device), label.to(device=device)
+            img0, img1, label = img0.to(device), img1.to(device), label.to(device)
             optimizer.zero_grad()
             output1, output2 = net(img0, img1)
             loss_contrastive = criterion(output1, output2, label)
@@ -55,7 +58,7 @@ def main():
     for i in range(10):
         _, x1, label2 = next(dataiter)
         concatenated = torch.cat((x0, x1), 0)
-        output1, output2 = net(x0.cuda(), x1.cuda())
+        output1, output2 = net(x0.to(device), x1.to(device))
         euclidean_distance = F.pairwise_distance(output1, output2)
         imshow(torchvision.utils.make_grid(concatenated), f'Dissimilarity: {euclidean_distance.item():.2f}')
 

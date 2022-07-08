@@ -7,20 +7,21 @@ class SiameseModel(Model):
     def __init__(self):
 
         super(SiameseModel, self).__init__()
-        self.feature_extractor = Sequential(
-            Conv2D(96, kernel_size=11, strides=4, activation='relu',),
-            MaxPool2D(pool_size=3, strides=2),
+        self.feature_extractor = Sequential()
+        self.feature_extractor.add(Conv2D(96, kernel_size=11, strides=4, activation='relu',))
+        self.feature_extractor(MaxPool2D(pool_size=3, strides=2))
             #**************
-            Conv2D(256, kernel_size=5, strides=1, activation='relu',),
-            MaxPool2D(pool_size=2, strides=2),
+        self.feature_extractor(Conv2D(256, kernel_size=5, strides=1, activation='relu',))
+        self.feature_extractor(MaxPool2D(pool_size=2, strides=2))
             #**************
-            Conv2D(384, kernel_size=3, strides=1, activation='relu',),
-        )
-        self.classifier = Sequential(
-            Dense(1024, activation='relu',),
-            Dense(256, activation='relu',),
-            Dense(2, activation='relu',)
-        )
+        self.feature_extractor(Conv2D(384, kernel_size=3, strides=1, activation='relu',))
+        
+
+        self.classifier = Sequential()
+        self.classifier(Dense(1024, activation='relu',))
+        self.classifier(Dense(256, activation='relu',))
+        self.classifier(Dense(2, activation='relu',))
+        
     def call(self, x):
         out = self.feature_extractor(x)
         out = self.classifier(out)

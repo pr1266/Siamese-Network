@@ -12,17 +12,17 @@ class SiameseDataset(Dataset):
         self.transform = transform
 
     def __getitem__(self,index):
-        img0_tuple = random.choice(self.imageFolderDataset.imgs)
+        img0_tuple = random.choice(self.path.imgs)
 
         should_get_same_class = random.randint(0,1) 
         if should_get_same_class:
             while True:
-                img1_tuple = random.choice(self.imageFolderDataset.imgs) 
+                img1_tuple = random.choice(self.path.imgs) 
                 if img0_tuple[1] == img1_tuple[1]:
                     break
         else:
             while True:
-                img1_tuple = random.choice(self.imageFolderDataset.imgs) 
+                img1_tuple = random.choice(self.path.imgs) 
                 if img0_tuple[1] != img1_tuple[1]:
                     break
 
@@ -39,4 +39,4 @@ class SiameseDataset(Dataset):
         return img0, img1, torch.from_numpy(np.array([int(img1_tuple[1] != img0_tuple[1])], dtype=np.float32))
     
     def __len__(self):
-        return len(self.imageFolderDataset.imgs)
+        return len(self.path.imgs)

@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from .utils import PrintLayer
+from utils import PrintLayer
 
 class SiameseModel(nn.Module):
 

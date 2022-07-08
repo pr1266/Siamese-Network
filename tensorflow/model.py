@@ -16,11 +16,13 @@ class SiameseModel(Model):
             #**************
             Conv2D(384, kernel_size=3, strides=1, activation='relu',),
         ])
+        
         self.classifier = Sequential([
             Dense(1024, activation='relu',),
             Dense(256, activation='relu',),
             Dense(2, activation='relu',)
         ])
+
     def call(self, x):
         out = self.feature_extractor(x)
         out = self.classifier(out)

@@ -9,7 +9,8 @@ class PrintLayer(nn.Module):
         super(PrintLayer, self).__init__()
 
     def forward(self, x):
-        print('out_size : ', x.size())
+        #! baraye didan joziat e shape ha ino uncomment konid:
+        # print('out_size : ', x.size())
         return x
 
 def imshow(img, text=None):
